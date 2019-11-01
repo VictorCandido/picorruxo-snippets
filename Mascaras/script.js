@@ -1,3 +1,7 @@
+/**
+ * Função que adiciona máscara de moedas ao campo inserido.
+ * @param {string} campo Campo a receber máscara
+ */
 const mascaraMoeda = (campo) => {
     valor = campo.value;
     valor = valor.replace(/\D/g, ""); // permite digitar apenas numero
