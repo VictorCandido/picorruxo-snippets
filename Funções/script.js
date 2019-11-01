@@ -22,6 +22,8 @@ function somenteNumeros(num) {
     }
 }
 
+
+
 /**
  * Função que retorna se o codigo está sendo executando em um sistema mobile ou não.
  */
@@ -38,4 +40,19 @@ function detectar_mobile() {
     } else {
         return false;
     }
+}
+
+
+
+/**
+ * Exemplo para adicionar nome do usuário logado em um campo.
+ * @param {*} form Campos do formulário
+ * @param {*} customHTML 
+ */
+function displayFields(form, customHTML) {
+    var usuarioId = getValue("WKUser");
+    var const1 = DatasetFactory.createConstraint("colleaguePK.colleagueId", usuarioId, usuarioId, ConstraintType.MUST);
+    var datasetAttachment = DatasetFactory.getDataset("colleague", null, [const1], null);
+    var usuario = datasetAttachment.getValue(0, "colleagueName");
+    form.setValue("NOME_DO_CAMPO", usuario);
 }
