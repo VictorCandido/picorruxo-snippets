@@ -88,3 +88,30 @@ function getTodayDate() {
     var dataString = "" + ((parseInt(data.getDate()) < 10) ? "0" + data.getDate() : data.getDate()) + "/" + (((parseInt(data.getMonth()) + 1) < 10) ? "0" + (parseInt(data.getMonth()) + 1) : data.getMonth() + 1) + "/" + data.getFullYear() + ""
     return dataString
 }
+
+
+
+/**
+ * Recebe um número e retorna o mesmo em string com máscara de real
+ * @param {number} numero Valor para ser retornado 
+ */
+function numberToReal(numero) {
+    if (numero < 0) {
+        var numero = numero.toFixed(2).split('.');
+        numero[0] = numero[0].replace('-', '')
+        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+        return '-' + numero.join(',');
+    } else {
+        var numero = numero.toFixed(2).split('.');
+        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+        return numero.join(',');
+    }
+}
+
+/**
+ * Recebe uma máscara de real e converte em número
+ * @param {string} numero máscara para ser revertida em number
+ */
+function realToNumber(numero) {
+    return parseFloat(numero.replace(/\./g, '').replace(',', '.'))
+}
