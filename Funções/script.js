@@ -66,7 +66,7 @@ function displayFields(form, customHTML) {
  * @param {string} tableName - Nome da tabela PaiFilho
  * @param {Array Objetos} constraints - Array de Objetos [{name: NOME_DO_CAMPO,value: VALOR_FILTRO,}]
  */
-function pegarDadosPaiFilho(datasetFormulario, tableName, constraints) {
+function pegarDadosPaiFilho(datasetFormulario, tableName, constraints = []) {
     var constraintsFilhos = DatasetFactory.createConstraint("tablename", tableName, tableName, ConstraintType.MUST);
     var constraintsFinal = new Array()
     constraintsFinal.push(constraintsFilhos)
