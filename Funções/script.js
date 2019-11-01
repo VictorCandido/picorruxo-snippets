@@ -56,3 +56,24 @@ function displayFields(form, customHTML) {
     var usuario = datasetAttachment.getValue(0, "colleagueName");
     form.setValue("NOME_DO_CAMPO", usuario);
 }
+
+
+
+/**
+ * Faz uma consulta de dataset retornando valores dentro do campo PaiFilho
+ * 
+ * @param {string} datasetFormulario - Nome do dataset do formulário
+ * @param {string} tableName - Nome da tabela PaiFilho
+ * @param {Array Objetos} constraints - Array de Objetos [{name: NOME_DO_CAMPO,value: VALOR_FILTRO,}]
+ */
+function pegarDadosPaiFilho(datasetFormulario, tableName, constraints) {
+    var constraintsFilhos = DatasetFactory.createConstraint("tablename", tableName, tableName, ConstraintType.MUST);
+    var constraintsFinal = new Array()
+    constraintsFinal.push(constraintsFilhos)
+    if (constraints.length != 0) {
+        for (var i = 0; i < constraints.length; i++) {
+            constraintsFinal.push(DatasetFactory.createConstraint(constraints[i].name, constraints[i].value, constraints[i].value, ConstraintType.MUST))
+        }
+    }
+    return DatasetFactory.getDataset(datasetFormulario, null, constraintsFinal, null).values;
+}
