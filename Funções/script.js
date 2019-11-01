@@ -77,3 +77,14 @@ function pegarDadosPaiFilho(datasetFormulario, tableName, constraints = []) {
     }
     return DatasetFactory.getDataset(datasetFormulario, null, constraintsFinal, null).values;
 }
+
+
+
+/**
+ * Retorna data atual em string
+ */
+function getTodayDate() {
+    let data = new Date;
+    var dataString = "" + ((parseInt(data.getDate()) < 10) ? "0" + data.getDate() : data.getDate()) + "/" + (((parseInt(data.getMonth()) + 1) < 10) ? "0" + (parseInt(data.getMonth()) + 1) : data.getMonth() + 1) + "/" + data.getFullYear() + ""
+    return dataString
+}
