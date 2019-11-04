@@ -1,0 +1,80 @@
+{
+    "Input Text": {
+        "prefix": "fg-text",
+        "body": [
+            "<label for='$3'>$0</label>",
+            "<input type='text' class='form-control' id='$1' name='$2' />"
+        ],
+        "description": "Cria um campo text"
+    },
+    "Panel Fluig": {
+        "prefix": "fg-panel",
+        "body": [
+            "<div class='panel panel-default'>",
+            "\t<div class='panel-heading'>",
+            "\t\t<h3 class='panel-title'>$PANEL_TITLE</h3>",
+            "\t</div>",
+            "\t<div class='panel-body'>",
+            "\t\t$0",
+            "\t</div>",
+            "</div>"
+        ],
+        "description": "Cria um painel no html"
+    },
+    "zoom": {
+        "prefix": "fg-zoom",
+        "body": [
+            "<input type=\"zoom\" id=\"$1\" name=\"$2\" data-zoom=\"{",
+            "        'displayKey':'colleagueName',",
+            "        'datasetId':'colleague',",
+            "        'maximumSelectionLength':'2',",
+            "        'placeholder':'Escolha o usuário',",
+            "        'fields':[",
+            "            {",
+            "               'field':'colleagueId',",
+            "               'label':'ID'",
+            "            },{",
+            "              'field':'colleagueName',",
+            "              'label':'Nome',",
+            "              'standard':'true'",
+            "            },{",
+            "              'field':'login',",
+            "              'label':'Login'",
+            "            }",
+            "        ]",
+            "     }\"",
+            "/>"
+        ],
+        "description": "zoom"
+    },
+    "Input File": {
+        "prefix": "fg-file",
+        "body": [
+            "<label name=\"$1\" class=\"btn btn-default\">",
+            "\t<input type=\"file\" class=\"hidden\" id=\"$2\" name=\"$3\" />",
+            "\tEscolher Arquivo",
+            "</label>"
+        ],
+        "description": "Cria um botão input file"
+    },
+    "Tabela Pai Filho": {
+        "prefix": "fg-paiFilho",
+        "body": [
+            "<table tablename=\"$NOME\" class=\"table table-hover\" noaddbutton=\"$true\" customFnDelete=\"$function\">",
+            "\t<thead>",
+            "\t\t<tr>",
+            "\t\t\t<td>$coluna</td>",
+            "\t\t</tr>",
+            "\t</thead>",
+            "\t<tbody>",
+            "\t\t<tr>",
+            "\t\t\t<td>",
+            "\t\t\t\t$campo",
+            "\t\t\t</td>",
+            "\t\t</tr>",
+            "\t</tbody>",
+            "</table>"
+        ],
+        "description": "Adiciona o código de uma tabela pai filho"
+    }
+}
