@@ -45,7 +45,7 @@
             "     }\"",
             "/>"
         ],
-        "description": "zoom"
+        "description": "cria campo zoom"
     },
     "Input File": {
         "prefix": "fg-file",
