@@ -75,5 +75,25 @@
             "var $index = form.getChildrenIndexes(\"$1\");"
         ],
         "description": "Retorna número de filhos da tabela Pai Filho"
-    }
+    },
+	"Adicionar hora atual em um campo": {
+		"prefix": "fg-dateNow",
+		"body": [
+			"customHTML.append(\"<script>\");",
+			"customHTML.append(\"var data = new Date();\");",
+			"customHTML.append(\"var dataHoje = data.toLocaleString();\");",
+			"customHTML.append(\"$('#$data_hora').val(dataHoje);\");",
+			"customHTML.append(\"</script>\");"
+		]
+	},
+	"Pega Valor de um campo em eventos de workflow": {
+		"prefix": "fg-getCard",
+		"body": "hAPI.getCardValue(\"$1\")",
+		"description": "Pega Valor de um campo em eventos de workflow"
+	},
+	"Seta Valor em um campo em eventos de workflow": {
+		"prefix": "fg-setCard",
+		"body": "hAPI.setCardValue(\"$1\", \"$2\")",
+		"description": "Seta Valor em um campo em eventos de workflow"
+	}
 }
