@@ -1,0 +1,395 @@
+// MAICOL DE OLIVEIRA CAMPOS
+{
+		"Console Log": {
+			"prefix": "clog",
+			"body": "console.log('$1', $2)",
+			"description": "Log output to console"
+		},
+		/**********************************DATA SET********************************/
+		"Criar Conecção JDBC":{
+			"prefix": "fg@createDatasetConectionJDBC(CREATE DATASET)",
+			"body": [
+				"function createDataset(fields, constraints, sortFields) {",
+			    "	log.info('#### DS SQL ####');",
+				"	var newDataset = DatasetBuilder.newDataset();",
+				"	var ic         = new javax.naming.InitialContext();",
+				"	var created    = false;",
+				"	var query      = '';",
+				"	var filtro     = '';",
+				"	var banco      = '';",
+				"	var zoom       = 0;",
+				"	var dataSource = 'jdbc/';",
+				"	var servico    = 'FluigDS';",
+				"	if(constraints != null) {",
+				"		if(constraints.length > 0) {",
+				"			for (var i = 0; i < constraints.length; i++) {",
+				"				if (constraints[i].fieldName == 'select') {",
+				"					query = constraints[i].initialValue;",
+				"				} else if (constraints[i].fieldName == 'servico') {",
+				"					servico = constraints[i].initialValue;",
+				"				} else if (constraints[i].fieldName == 'zoom') { // quando for campo ZOOM no formulário",
+				"					zoom = constraints[i].initialValue;",
+				"				} else if (constraints[i].fieldName == 'sqlLimit') {",
+				"				} else {",
+				"					var campo = constraints[i].fieldName;",
+				"					var valor = constraints[i].initialValue; ", 			
+				"					filtro += 'AND'  + campo + \" 'LIKE % + valor + %'\"; ",
+				"				}",
+				"			}",
+				"		}",
+				"	}",
+				"	//query = query.toUpperCase();",
+				"	if(query.indexOf('WHERE')==-1) { // NÃO ACHOU",
+				"		filtro = ' WHERE 1=1'  + filtro;",
+				"	} else { // ACHOU",
+				"	}",
+				"	query = query + filtro;",
+				"	if (zoom == 1) {",
+				"		//query = decodeURIComponent(query);",
+				"		query = query.replace('+%27', \" '\").replace('%27+', \"'\");",
+				"	}",
+				"	//query = query.toUpperCase();",
+				"	log.info('#### QUERY ####');",
+				"	log.info(query);",
+				"	var ds = ic.lookup(dataSource + '/' + servico);",
+				"	try {",
+				"		var conn = ds.getConnection();",
+				"		var stmt = conn.createStatement();",
+				"		var rs = stmt.executeQuery(query);",
+				"		var columnCount = rs.getMetaData().getColumnCount();",
+				"		while(rs.next()) {",
+				"			if(!created) {",
+				"				for(var i = 1; i <= columnCount; i++) {",
+				"					newDataset.addColumn(rs.getMetaData().getColumnName(i));",
+				"			}",	
+				"				created = true;",
+				"			}",
+				"			var Arr = new Array();",
+				"				for(var i = 1; i <= columnCount; i++) {",
+				"					var obj = rs.getObject(rs.getMetaData().getColumnName(i));",	
+			    "				if(null!=obj) {",
+				"					Arr[i-1] = rs.getObject(rs.getMetaData().getColumnName(i)).toString();",
+				"				} else {",
+				"			Arr[i-1] = 'null';",
+				"				}",
+				"			}",			
+				"				newDataset.addRow(Arr);",
+				"			}",
+				"	} catch(e) {",
+				"		log.info('ERRO ==============>'  + e.message);",
+				"		newDataset.addColumn('ERRO');",
+				"		newDataset.addRow(new Array(e.message));",
+				"	} finally {",
+				"	if(stmt != null) stmt.close();",
+				"		if(conn != null) conn.close();  ",              
+				"	}",
+				"	return newDataset;",
+				"}"
+			],
+			"description": "Criação de dataset para coneção com serviços jdbc - Fluig"
+		},
+
+		"Criar novo Dataset": {
+			"prefix": "fg@createds",
+			"body": [
+                "try{",
+				"	var dataset = DatasetBuilder.newDataset();",
+				"	dataset.addColumn('$NOME_DA_COLUNA');",
+				"	dataset.addRow([$VALOR_LINHA]);",
+				"",
+				"	return dataset;",
+                "}catch(erro){",
+				"	var dataset = DatasetBuilder.newDataset();",
+				"	dataset.addColumn('Erro');",
+				"	dataset.addRow([erro]);",
+				"	return dataset;",
+                "}",
+			],
+			"description": "Cria uma estrutura de um novo dataset"
+		},
+		"Criar Constraint":{
+			"prefix": "fg@createconstraint",
+			"body": [
+				"var ${constraint} = DatasetFactory.createConstraint('${indiceConstraint}', '${valorInicial}', '${valorfinal}', ConstraintType.MUST);"
+			],
+			"description": "Cria constraint"
+		},
+		"Adicionar Coluna ao Dataset":{
+			"prefix": "fg@Col",
+			"body": [
+				"${dataset}.addColumn('${nomeColuna}')"
+			],
+			"description": "Adicionar colunas ao dataset"
+		},
+		"Pegar Valor do dataset":{
+			"prefix": "fg@gval",
+			"body": [
+				"${dataset}.getValue(${i}, '${nomeColuna}');"
+			],
+			"description": "Pegar valor de uma posição x,y do dataset"
+		},
+		"Adicionar Linha ao Dataset":{
+			"prefix": "fg@row",
+			"body": [
+			"	dataset.addRow(",
+			"		new Array(",
+			"			${indice}"
+			"		)",
+			"	)"
+			],
+			"description": "Adicionar Campos do dataset"
+		},
+		"Retornar dataset": {
+			"prefix": "fg@getds",
+			"body": "var $dataset = DatasetFactory.getDataset('$DATASET', $null, $null, $null);",
+			"description": "Cria a estrutura de consulta de um dataset"
+		},
+	/**********************************FLUIG API********************************/
+		"Retorna login do usuário logado": {
+			"prefix": "fg?getLogin",
+			"body": [
+			  "var ${login} = fluigAPI.getUserService().getCurrent().getCode();"
+			],
+			"description": "Retorna login do usuário logado"
+		},
+		"Retorna nomedo usuário logado": {
+			"prefix": "fg?getNome",
+			"body": [
+			  "var ${nome} = fluigAPI.getUserService().getCurrent().getFullName();"
+			],
+			"description": "Retorna nomedo usuário logado"
+		},
+		/**********************************FORM********************************/
+		"DisplayFields Set Value": {
+			"prefix": "fg#setValue",
+			"body": [
+			  "form.setValue('${indice1}', '${indice2}');"
+			],
+			"description": "DisplayFields Set Value"
+		},
+		"DisplayFields Get Value": {
+			"prefix": "fg#getValue",
+			"body": [
+			  "var ${campo} = form.getValue('${indice}');"
+			],
+			"description": "DisplayFields Get Value"
+		},
+		"DisplayFields SetVisibleById": {
+			"prefix": "fg#setVisibleById",
+			"body": [
+			  "form.setVisibleById('${indice}', ${true});"
+			],
+			"description": "DisplayFields SetVisibleById"
+		},
+		"Retorna número de filhos da tabela Pai Filho": {
+			"prefix": "fg#getIndexes",
+			"body": [
+			  "var $index = form.getChildrenIndexes(\"$1\");"
+			],
+			"description": "Retorna número de filhos da tabela Pai Filho"
+		},
+		"Adicionar hora atual em um campo": {
+			"prefix": "fg#dateNow",
+			"body": [
+				"customHTML.append(\"<script>\");",
+				"customHTML.append(\"var data = new Date();\");",
+				"customHTML.append(\"var dataHoje = data.toLocaleString();\");",
+				"customHTML.append(\"$('#$data_hora').val(dataHoje);\");",
+				"customHTML.append(\"</script>\");"
+			]
+		},
+		/**********************************WORKFLOW********************************/
+		"Retorna número da atividade": {
+			"prefix": "fg*getAtividade",
+			"body": [
+			  "var atividade = getValue(\"WKNumState\");"
+			],
+			"description": "Retorna número da atividade"
+		},
+		"Retorna número do processo": {
+			"prefix": "fg*getProcesso",
+			"body": [
+			  "var processo = getValue('WKNumProces');"
+			],
+			"description": "Retorna número do processo"
+		},
+		"Pega Valor de um campo em eventos de workflow": {
+			"prefix": "fg*getCard",
+			"body": "hAPI.getCardValue(\"$1\");",
+			"description": "Pega Valor de um campo em eventos de workflow"
+		},
+		"Seta Valor em um campo em eventos de workflow": {
+			"prefix": "fg*setCard",
+			"body": "hAPI.setCardValue(\"$1\", \"$2\");",
+			"description": "Seta Valor em um campo em eventos de workflow"
+		},
+		"Log.info Victor": {
+			"prefix": "info",
+			"body": "log.info('${info}');",
+			"description": "Log.info"
+		},
+		"Log.dir": {
+			"prefix": "dir",
+			"body": "log.dir('${obj}');",
+			"description": "Log.dir"
+		},
+		/**********************************FLUIGC********************************/
+		"Loading Show": {
+			"prefix": "fg-loading-show",
+			"body": "FLUIGC.loading(window).show()",
+			"description": "Fluig Loading Show"
+		},
+		"Loading Hide": {
+			"prefix": "fg-loading-hide",
+			"body": "FLUIGC.loading(window).hide()",
+			"description": "Fluig Loading Hide"
+		},
+
+		/**********************************JQUERY********************************/
+		"Document ready JQUERY":{
+			"prefix": "fg$ready",
+			"body": [
+				"$('document').ready(function(){",
+					"",
+				"})"
+			],
+			"description": "Utilização do codigo $('document').ready(function(){code}) JQUERY"
+		},
+		"Evento click JQUERY": {
+			"prefix": "fg$click",
+			"body": [
+				"$(${seletor}).on('click', function(event){",
+						"${code}",
+				"})"
+			],
+			"description": "Evento Click JQUERY"
+		},
+		"Remoção de Eventos JQUERY": {
+			"prefix": "fg$removeEvent",
+			"body": [
+				"$(${seletor}).off(${ElementoaRemover})"
+			],
+			"description": "Remoção de Evento JQUERY"
+		},
+		"Evento de perca de focu JQUERY": {
+			"prefix": "fg$blur",
+			"body": [
+				"$(${seletor}).blur(function(){",
+					"${code}",
+				"})"
+			],
+			"description": "Evento blur JQUERY"
+		},
+		"Evento keyup JQUERY": {
+			"prefix": "fg$keyup",
+			"body": [
+				"$(${seletor}).keyup(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento keyup JQUERY"
+		},
+		"Evento keydown JQUERY": {
+			"prefix": "fg$keydown",
+			"body": [
+				"$(${seletor}).keydown(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento keydown JQUERY"
+		},
+		"Evento mouseenter JQUERY": {
+			"prefix": "fg$mouseenter",
+			"body": [
+				"$(${seletor}).mouseenter(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mouseenter JQUERY"
+		},
+		"Evento mousedown JQUERY": {
+			"prefix": "fg$mousedown",
+			"body": [
+				"$(${seletor}).mousedown(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mousedown JQUERY"
+		},
+		"Evento mousemove JQUERY":{
+			"prefix": "fg$mousemove",
+			"body": [
+				"$(${seletor}).mousemove(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mousemove JQUERY"
+		},
+		"Evento mouseup JQUERY":{
+			"prefix": "fg$mouseup",
+			"body": [
+				"$(${seletor}).mouseup(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mouseup JQUERY"
+		},
+		"Evento mouseout JQUERY":{
+			"prefix": "fg$mouseout",
+			"body": [
+				"$(${seletor}).mouseout(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mouseout JQUERY"
+		},
+		"Evento mouseover JQUERY":{
+			"prefix": "fg$mouseover",
+			"body": [
+				"$(${seletor}).mouseover(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mouseout JQUERY"
+		},
+		"Evento mouseleave JQUERY":{
+			"prefix": "fg$mouseleave",
+			"body": [
+				"$(${seletor}).mouseleave(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento mouseleave JQUERY"
+		},
+		"Evento focus JQUERY":{
+			"prefix": "fg$focus",
+			"body": [
+				"$(${seletor}).focus(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento focus JQUERY"
+		},
+		"Evento hover JQUERY":{
+			"prefix": "fg$hover",
+			"body": [
+				"$(${seletor).hover(function(){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Evento hover JQUERY"
+		},
+		"Each JQUERY":{
+			"prefix": "fg$each",
+			"body": [
+				"$.each(${selector}, function(key,value){",
+				"   ${code}",
+				"})"
+			],
+			"description": "Função each JQUERY"
+		}
+
+		
+
+	}
+	
