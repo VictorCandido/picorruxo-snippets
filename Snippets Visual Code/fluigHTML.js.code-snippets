@@ -1,0 +1,131 @@
+{
+//MAICOL DE OLIVEIRA CAMPOS
+
+
+		"Criação de panel": {
+			"prefix": "fgp",
+			"body": [
+				"<div class='panel panel-${primary}'>",
+				"\t<div class='panel panel-heading'>",
+				"\t\t<h1>${title}<h1>",
+				"\t</div>",
+				"\t<div class='panel-body'>",
+				"\t\t${code}",
+				"\t</div>",
+				"</div>",
+			],
+			"description": "panel fluig class"
+		},
+		"Criação row": {
+			"prefix": "fgrow",
+			"body": [
+				"<div class='row'>",
+				"	${code}",
+				"</div>"
+			],
+			"description": "row fluig class"
+		},
+		"Col-md": {
+			"prefix": "fgcmd",
+			"body": [
+				"<div class='col-md-${number} form-group'>",
+				"	${code}",
+				"</div>"
+			],
+			"description": "col-md fluig class"
+		},
+		"Col-xs":{
+			"prefix": "fgcxs",
+			"body": [
+				"<div class='col-xs-${number} form-group'>",
+				"	${code}",
+				"</div>"
+			],
+			"description": "col-xs fluig class"
+		},
+		"Criação input group":{
+			"prefix": "fginpg",
+			"body": [
+				"<div class='input-group'>",
+				"	${code}",
+				"</div>"
+			],
+			"description": "input group fluig class"
+		},
+		"Criação input":{
+			"prefix": "fginp",
+			"body": [
+				"<input type='${text}' id='${val}' name='${val}' class='form-control'>"
+			],
+			"description": "input fluig class"
+		},
+		"Criação input hidden":{
+			"prefix": "fginph",
+			"body": [
+				"<input type='hidden' id='${val}' name='${val}' class='form-control'>"
+			],
+			"description": "input hidden fluig class"
+		},
+		"Criação PiaxFilho":{
+			"prefix": "fgtable",
+			"body": [
+				"<table tablename='${tableName}' nodeletebutton=${boolean}  noaddbutton=${boolean} class='table table-hover'>",
+				"\t<thead>",
+				"\t\t<tr>",
+				"\t\t\t<td></td>",
+				"\t\t</tr>",
+				"\t</thead>",
+				"\t<tbody>",
+				"\t\t<tr>",
+				"\t\t\t<td><td>",
+				"\t\t</tr>",
+				"\t</tbody>",	
+				"</table>"
+			],
+			"description": "table fluig class"
+		},
+		"Criação de Label": {
+			"prefix": "fgl",
+			"body": [
+				"<label for='${name}'>${code}</label>"
+			],
+			"description": "Criação de Panel"
+		},
+		"Criação de select": {
+			"prefix": "fgsel",
+			"body": [
+				"<select name='${name}' id='${name}' class='form-control'></select>"
+			],
+			"description": "Criação Select"
+		},
+		"Criação de Option": {
+			"prefix": "fgop",
+			"body": [
+				"<option value='${value}'>${code}</option>"
+			],
+			"description": "Criação Option"
+		},
+		"Criação de fileupload": {
+			"prefix": "fgtfile",
+			"body": [
+				""
+			],
+			"description": "Cria uploadFile em uma table"
+		},
+		"Criação de Lixeira": {
+			"prefix": "fgtrash",
+			"body": [
+				"<i class='fluigicon fluigicon-trash icon-lg 'onclick='${function(this)}' id='testeSolicitacao'></i>"
+			],
+			"description": "Criar Lixeira"
+		}
+
+
+
+
+
+
+
+
+
+}
