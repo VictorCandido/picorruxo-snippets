@@ -10,80 +10,80 @@
 			"prefix": "fg@createDatasetConectionJDBC(CREATE DATASET)",
 			"body": [
 				"function createDataset(fields, constraints, sortFields) {",
-			    "	log.info('#### DS SQL ####');",
-				"	var newDataset = DatasetBuilder.newDataset();",
-				"	var ic         = new javax.naming.InitialContext();",
-				"	var created    = false;",
-				"	var query      = '';",
-				"	var filtro     = '';",
-				"	var banco      = '';",
-				"	var zoom       = 0;",
-				"	var dataSource = 'jdbc/';",
-				"	var servico    = 'FluigDS';",
-				"	if(constraints != null) {",
-				"		if(constraints.length > 0) {",
-				"			for (var i = 0; i < constraints.length; i++) {",
-				"				if (constraints[i].fieldName == 'select') {",
-				"					query = constraints[i].initialValue;",
-				"				} else if (constraints[i].fieldName == 'servico') {",
-				"					servico = constraints[i].initialValue;",
-				"				} else if (constraints[i].fieldName == 'zoom') { // quando for campo ZOOM no formulário",
-				"					zoom = constraints[i].initialValue;",
-				"				} else if (constraints[i].fieldName == 'sqlLimit') {",
-				"				} else {",
-				"					var campo = constraints[i].fieldName;",
-				"					var valor = constraints[i].initialValue; ", 			
-				"					filtro += 'AND'  + campo + \" 'LIKE % + valor + %'\"; ",
-				"				}",
-				"			}",
-				"		}",
-				"	}",
-				"	//query = query.toUpperCase();",
-				"	if(query.indexOf('WHERE')==-1) { // NÃO ACHOU",
-				"		filtro = ' WHERE 1=1'  + filtro;",
-				"	} else { // ACHOU",
-				"	}",
-				"	query = query + filtro;",
-				"	if (zoom == 1) {",
-				"		//query = decodeURIComponent(query);",
-				"		query = query.replace('+%27', \" '\").replace('%27+', \"'\");",
-				"	}",
-				"	//query = query.toUpperCase();",
-				"	log.info('#### QUERY ####');",
-				"	log.info(query);",
-				"	var ds = ic.lookup(dataSource + '/' + servico);",
-				"	try {",
-				"		var conn = ds.getConnection();",
-				"		var stmt = conn.createStatement();",
-				"		var rs = stmt.executeQuery(query);",
-				"		var columnCount = rs.getMetaData().getColumnCount();",
-				"		while(rs.next()) {",
-				"			if(!created) {",
-				"				for(var i = 1; i <= columnCount; i++) {",
-				"					newDataset.addColumn(rs.getMetaData().getColumnName(i));",
-				"			}",	
-				"				created = true;",
-				"			}",
-				"			var Arr = new Array();",
-				"				for(var i = 1; i <= columnCount; i++) {",
-				"					var obj = rs.getObject(rs.getMetaData().getColumnName(i));",	
-			    "				if(null!=obj) {",
-				"					Arr[i-1] = rs.getObject(rs.getMetaData().getColumnName(i)).toString();",
-				"				} else {",
-				"			Arr[i-1] = 'null';",
-				"				}",
-				"			}",			
-				"				newDataset.addRow(Arr);",
-				"			}",
-				"	} catch(e) {",
-				"		log.info('ERRO ==============>'  + e.message);",
-				"		newDataset.addColumn('ERRO');",
-				"		newDataset.addRow(new Array(e.message));",
-				"	} finally {",
-				"	if(stmt != null) stmt.close();",
-				"		if(conn != null) conn.close();  ",              
-				"	}",
-				"	return newDataset;",
+			    "\tlog.info('#### DS SQL ####');",
+				"\tvar newDataset = DatasetBuilder.newDataset();",
+				"\tvar ic         = new javax.naming.InitialContext();",
+				"\tvar created    = false;",
+				"\tvar query      = '';",
+				"\tvar filtro     = '';",
+				"\tvar banco      = '';",
+				"\tvar zoom       = 0;",
+				"\tvar dataSource = 'jdbc/';",
+				"\tvar servico    = 'FluigDS';",
+				"\tif(constraints != null) {",
+				"\t\tif(constraints.length > 0) {",
+				"\t\t\tfor (var i = 0; i < constraints.length; i++) {",
+				"\t\t\t\tif (constraints[i].fieldName == 'select') {",
+				"\t\t\t\t\tquery = constraints[i].initialValue;",
+				"\t\t\t\t} else if (constraints[i].fieldName == 'servico') {",
+				"\t\t\t\t\tservico = constraints[i].initialValue;",
+				"\t\t\t\t} else if (constraints[i].fieldName == 'zoom') { // quando for campo ZOOM no formulário",
+				"\t\t\t\t\tzoom = constraints[i].initialValue;",
+				"\t\t\t\t} else if (constraints[i].fieldName == 'sqlLimit') {",
+				"\t\t\t\t} else {",
+				"\t\t\t\t\tvar campo = constraints[i].fieldName;",
+				"\t\t\t\t\tvar valor = constraints[i].initialValue; ", 			
+				"\t\t\t\t\tfiltro += 'AND'  + campo + \" 'LIKE % + valor + %'\"; ",
+				"\t\t\t\t}",
+				"\t\t\t}",
+				"\t\t}",
+				"\t}",
+				"\t//query = query.toUpperCase();",
+				"\tif(query.indexOf('WHERE')==-1) { // NÃO ACHOU",
+				"\t\tfiltro = ' WHERE 1=1'  + filtro;",
+				"\t} else { // ACHOU",
+				"\t}",
+				"\tquery = query + filtro;",
+				"\tif (zoom == 1) {",
+				"\t\t//query = decodeURIComponent(query);",
+				"\t\tquery = query.replace('+%27', \" '\").replace('%27+', \"'\");",
+				"\t}",
+				"\t//query = query.toUpperCase();",
+				"\tlog.info('#### QUERY ####');",
+				"\tlog.info(query);",
+				"\tvar ds = ic.lookup(dataSource + '/' + servico);",
+				"\ttry {",
+				"\t\tvar conn = ds.getConnection();",
+				"\t\tvar stmt = conn.createStatement();",
+				"\t\tvar rs = stmt.executeQuery(query);",
+				"\t\tvar columnCount = rs.getMetaData().getColumnCount();",
+				"\t\twhile(rs.next()) {",
+				"\t\t\tif(!created) {",
+				"\t\t\t\tfor(var i = 1; i <= columnCount; i++) {",
+				"\t\t\t\t\tnewDataset.addColumn(rs.getMetaData().getColumnName(i));",
+				"\t\t\t}",	
+				"\t\t\t\tcreated = true;",
+				"\t\t\t}",
+				"\t\t\tvar Arr = new Array();",
+				"\t\t\t\tfor(var i = 1; i <= columnCount; i++) {",
+				"\t\t\t\t\tvar obj = rs.getObject(rs.getMetaData().getColumnName(i));",	
+			    "\t\t\t\tif(null!=obj) {",
+				"\t\t\t\t\tArr[i-1] = rs.getObject(rs.getMetaData().getColumnName(i)).toString();",
+				"\t\t\t\t} else {",
+				"\t\t\tArr[i-1] = 'null';",
+				"\t\t\t\t}",
+				"\t\t\t}",			
+				"\t\t\t\tnewDataset.addRow(Arr);",
+				"\t\t\t}",
+				"\t} catch(e) {",
+				"\t\tlog.info('ERRO ==============>'  + e.message);",
+				"\t\tnewDataset.addColumn('ERRO');",
+				"\t\tnewDataset.addRow(new Array(e.message));",
+				"\t} finally {",
+				"\tif(stmt != null) stmt.close();",
+				"\t\tif(conn != null) conn.close();  ",              
+				"\t}",
+				"\treturn newDataset;",
 				"}"
 			],
 			"description": "Criação de dataset para coneção com serviços jdbc - Fluig"
@@ -93,16 +93,16 @@
 			"prefix": "fg@createds",
 			"body": [
                 "try{",
-				"	var dataset = DatasetBuilder.newDataset();",
-				"	dataset.addColumn('$NOME_DA_COLUNA');",
-				"	dataset.addRow([$VALOR_LINHA]);",
+				"\tvar dataset = DatasetBuilder.newDataset();",
+				"\tdataset.addColumn('$NOME_DA_COLUNA');",
+				"\tdataset.addRow([$VALOR_LINHA]);",
 				"",
-				"	return dataset;",
+				"\treturn dataset;",
                 "}catch(erro){",
-				"	var dataset = DatasetBuilder.newDataset();",
-				"	dataset.addColumn('Erro');",
-				"	dataset.addRow([erro]);",
-				"	return dataset;",
+				"\tvar dataset = DatasetBuilder.newDataset();",
+				"\tdataset.addColumn('Erro');",
+				"\tdataset.addRow([erro]);",
+				"\treturn dataset;",
                 "}",
 			],
 			"description": "Cria uma estrutura de um novo dataset"
@@ -131,11 +131,11 @@
 		"Adicionar Linha ao Dataset":{
 			"prefix": "fg@row",
 			"body": [
-			"	dataset.addRow(",
-			"		new Array(",
-			"			${indice}"
-			"		)",
-			"	)"
+			"\tdataset.addRow(",
+			"\t\tnew Array(",
+			"\t\t\t${indice}",
+			"\t\t)",
+			"\t)"
 			],
 			"description": "Adicionar Campos do dataset"
 		},
@@ -196,7 +196,30 @@
 				"customHTML.append(\"var dataHoje = data.toLocaleString();\");",
 				"customHTML.append(\"$('#$data_hora').val(dataHoje);\");",
 				"customHTML.append(\"</script>\");"
-			]
+			],
+			"description": "Adiciona a data atual a um campos do formulario"
+		},
+		"Atividade atual": {
+			"prefix": "fg#ativAtual",
+			"body": [
+				"var ativAtual = getValue('WKNumState');"
+			],
+			"description": "Adiciona uma variavel que guarda a atividade atual do processo"
+		},
+		"Numero da Solicitação Aberta":{
+			"prefix": "fg#process",
+			"body": [
+				"var numProcesso = getValue('WKNumProces')"
+			],
+			"description": "Adiciona uma variavel que guarda o numero da solicitação aberta"
+
+		},
+		"Injeção de Script no Formulário":{
+			"prefix": "fg#append",
+			"body": [
+				"customHTML.append('<script>${code}</script>');"
+			],
+			"description": "Adiciona script no formulário"
 		},
 		/**********************************WORKFLOW********************************/
 		"Retorna número da atividade": {
@@ -244,13 +267,51 @@
 			"body": "FLUIGC.loading(window).hide()",
 			"description": "Fluig Loading Hide"
 		},
+		"Switcher": {
+			"prefix": "fg-sw",
+			"body": [
+				"FLUIGC.switcher.init('#${campoSwitch}');"
+			],
+			"description": "Fluig switcher"
+		},
+		"Swicher onChange event": {
+			"prefix": "fg-swchange",
+			"body": [
+				"FLUIGC.switcher.onChange(${seletor}, function(event, state){",
+				"\t${code}",
+				"})"
+			],
+			"description": "Fluig Switcher event change"
+		},
+		"Fluig Calendario":{
+			"prefix": "fg-initcalendar",
+			"body": [
+				"FLUIGC.calendar(${seletor}, {",
+				"\tpickDate: true,",
+				"\tpickTime: true,",
+				"})"
+			],
+			"description": "Inicia Calendario"
+		},
+		"Fluig Toast": {
+			"prefix": "fg-toast",
+			"body": [
+				"FLUIGC.toast({",
+				"\ttitle: '${title}: ',",
+				"\tmessage: '${menssagem}',",
+				"\ttype: '${success}'",
+				"});"
+			],
+			"description": "Inicia Toast"
+		},
+
 
 		/**********************************JQUERY********************************/
 		"Document ready JQUERY":{
 			"prefix": "fg$ready",
 			"body": [
 				"$('document').ready(function(){",
-					"",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Utilização do codigo $('document').ready(function(){code}) JQUERY"
@@ -259,7 +320,7 @@
 			"prefix": "fg$click",
 			"body": [
 				"$(${seletor}).on('click', function(event){",
-						"${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento Click JQUERY"
@@ -275,7 +336,7 @@
 			"prefix": "fg$blur",
 			"body": [
 				"$(${seletor}).blur(function(){",
-					"${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento blur JQUERY"
@@ -284,7 +345,7 @@
 			"prefix": "fg$keyup",
 			"body": [
 				"$(${seletor}).keyup(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento keyup JQUERY"
@@ -293,7 +354,7 @@
 			"prefix": "fg$keydown",
 			"body": [
 				"$(${seletor}).keydown(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento keydown JQUERY"
@@ -302,7 +363,7 @@
 			"prefix": "fg$mouseenter",
 			"body": [
 				"$(${seletor}).mouseenter(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mouseenter JQUERY"
@@ -311,7 +372,7 @@
 			"prefix": "fg$mousedown",
 			"body": [
 				"$(${seletor}).mousedown(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mousedown JQUERY"
@@ -320,7 +381,7 @@
 			"prefix": "fg$mousemove",
 			"body": [
 				"$(${seletor}).mousemove(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mousemove JQUERY"
@@ -329,7 +390,7 @@
 			"prefix": "fg$mouseup",
 			"body": [
 				"$(${seletor}).mouseup(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mouseup JQUERY"
@@ -338,7 +399,7 @@
 			"prefix": "fg$mouseout",
 			"body": [
 				"$(${seletor}).mouseout(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mouseout JQUERY"
@@ -347,7 +408,7 @@
 			"prefix": "fg$mouseover",
 			"body": [
 				"$(${seletor}).mouseover(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mouseout JQUERY"
@@ -356,7 +417,7 @@
 			"prefix": "fg$mouseleave",
 			"body": [
 				"$(${seletor}).mouseleave(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento mouseleave JQUERY"
@@ -365,7 +426,7 @@
 			"prefix": "fg$focus",
 			"body": [
 				"$(${seletor}).focus(function(){",
-				"   ${code}",
+				" \t\t${code}",
 				"})"
 			],
 			"description": "Evento focus JQUERY"
@@ -374,7 +435,7 @@
 			"prefix": "fg$hover",
 			"body": [
 				"$(${seletor).hover(function(){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Evento hover JQUERY"
@@ -383,13 +444,10 @@
 			"prefix": "fg$each",
 			"body": [
 				"$.each(${selector}, function(key,value){",
-				"   ${code}",
+				"\t\t${code}",
 				"})"
 			],
 			"description": "Função each JQUERY"
 		}
-
-		
-
 	}
 	
