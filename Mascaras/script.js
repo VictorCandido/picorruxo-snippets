@@ -12,3 +12,11 @@ const mascaraMoeda = (campo) => {
     valor = valor.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos ultimos 2 digitos
     campo.value = valor;
 }
+/**
+ * Função que retorna valor sem máscara.
+ * @param {string} valor valor com mascara
+ */
+function tiraMaskMoeda(valor) {
+    return parseInt(valor.toString().replace(/[.,]/g, ''));
+}
+

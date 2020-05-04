@@ -22,8 +22,6 @@ function somenteNumeros(num) {
     }
 }
 
-
-
 /**
  * Função que retorna se o codigo está sendo executando em um sistema mobile ou não.
  */
@@ -42,8 +40,6 @@ function detectar_mobile() {
     }
 }
 
-
-
 /**
  * Exemplo para adicionar nome do usuário logado em um campo.
  * @param {*} form Campos do formulário
@@ -56,8 +52,6 @@ function displayFields(form, customHTML) {
     var usuario = datasetAttachment.getValue(0, "colleagueName");
     form.setValue("NOME_DO_CAMPO", usuario);
 }
-
-
 
 /**
  * Faz uma consulta de dataset retornando valores dentro do campo PaiFilho
