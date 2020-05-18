@@ -1,6 +1,7 @@
 /**
  * Função que adiciona máscara de moedas ao campo inserido.
  * @param {string} campo Campo a receber máscara
+ * @author Víctor Cândido
  */
 const mascaraMoeda = (campo) => {
     valor = campo.value;
@@ -20,3 +21,29 @@ function tiraMaskMoeda(valor) {
     return parseInt(valor.toString().replace(/[.,]/g, ''));
 }
 
+/**
+ * Recebe um número e retorna o mesmo em string com máscara de real
+ * @param {number} numero Valor para ser retornado 
+ * @author Nicolas Guimarães
+ */
+function numberToReal(numero) {
+    if (numero < 0) {
+        var numero = numero.toFixed(2).split('.');
+        numero[0] = numero[0].replace('-', '')
+        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+        return '-' + numero.join(',');
+    } else {
+        var numero = numero.toFixed(2).split('.');
+        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+        return numero.join(',');
+    }
+}
+
+/**
+ * Recebe uma máscara de real e converte em número
+ * @param {string} numero máscara para ser revertida em number
+ * @author Nicolas Guimarães
+ */
+function realToNumber(numero) {
+    return parseFloat(numero.replace(/\./g, '').replace(',', '.'))
+}

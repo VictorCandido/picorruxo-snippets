@@ -2,6 +2,7 @@
  * Função de consulta de um dataset que retorna uma promisse.
  * @param {string} dataset Valor do dataset a ser consultado
  * @param {[]} constraint Array de contraints para filtrar na consulta do dataset
+ * @author Víctor Cândido
  */
 const getDataset = (dataset, constraint = []) => new Promise((resolve, reject) => {
     const datasetOptions = {
@@ -30,6 +31,7 @@ const getDataset = (dataset, constraint = []) => new Promise((resolve, reject) =
  * @param {String} url Url para requisição
  * @param {String} method Tipo de requisição (GET, PUT, DELETE, POST)
  * @param {Object Array} body Array de objetos com os dados caso a requisição não seja GET
+ * @author Víctor Cândido
  */
 const getAPI = (url, method = 'GET', body = null) => new Promise((resolve, reject) => {
     fetch(url, {
@@ -50,6 +52,7 @@ const getAPI = (url, method = 'GET', body = null) => new Promise((resolve, rejec
  * Função que altera a descrição do processo
  * @param {string} description Valor do dataset a ser consultado
  * @param {int} id id do documento que sera atualizado
+ * @author Erick Buriti
  */
 
 var renomearArquivo = function (description, id) {

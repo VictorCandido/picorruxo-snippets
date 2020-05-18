@@ -1,6 +1,11 @@
 habilitaCampo('funci_recibo_ferias', 'dia_recibo_ferias_F')
 
-//FUNÇÃO PARA HABILITAR CAMPOS QUANDO CHECK FOR CHECADO
+/**
+ * FUNÇÃO PARA HABILITAR CAMPOS QUANDO CHECK FOR CHECADO
+ * @param {*} idcheck 
+ * @param {*} idcampo 
+ * @author Rafael Oliveira
+ */
 function habilitaCampo(idcheck, idcampo) {
     $('#' + idcheck).change(function () {
         var valCheck = $('#' + idcheck).is(':checked')
@@ -12,7 +17,12 @@ function habilitaCampo(idcheck, idcampo) {
         }
     })
 }
-//FUNÇÃO PARA SOMENTE NUMEROS
+
+/**
+ * FUNÇÃO PARA SOMENTE NUMEROS
+ * @param {*} num 
+ * @author ?
+ */
 function somenteNumeros(num) {
     var er = /[^0-9.]/;
     er.lastIndex = 0;
@@ -24,6 +34,7 @@ function somenteNumeros(num) {
 
 /**
  * Função que retorna se o codigo está sendo executando em um sistema mobile ou não.
+ * @author Víctor Cândido
  */
 function detectar_mobile() {
     if (navigator.userAgent.match(/Android/i) ||
@@ -44,6 +55,7 @@ function detectar_mobile() {
  * Exemplo para adicionar nome do usuário logado em um campo.
  * @param {*} form Campos do formulário
  * @param {*} customHTML 
+ * @author Claison Oliveira
  */
 function displayFields(form, customHTML) {
     var usuarioId = getValue("WKUser");
@@ -59,6 +71,7 @@ function displayFields(form, customHTML) {
  * @param {string} datasetFormulario - Nome do dataset do formulário
  * @param {string} tableName - Nome da tabela PaiFilho
  * @param {Array Objetos} constraints - Array de Objetos [{name: NOME_DO_CAMPO,value: VALOR_FILTRO,}]
+ * @author Nicolas Guimarães
  */
 function pegarDadosPaiFilho(datasetFormulario, tableName, constraints = []) {
     var constraintsFilhos = DatasetFactory.createConstraint("tablename", tableName, tableName, ConstraintType.MUST);
@@ -72,40 +85,12 @@ function pegarDadosPaiFilho(datasetFormulario, tableName, constraints = []) {
     return DatasetFactory.getDataset(datasetFormulario, null, constraintsFinal, null).values;
 }
 
-
-
 /**
  * Retorna data atual em string
+ * @author Nicolas Guimarães
  */
 function getTodayDate() {
     let data = new Date;
     var dataString = "" + ((parseInt(data.getDate()) < 10) ? "0" + data.getDate() : data.getDate()) + "/" + (((parseInt(data.getMonth()) + 1) < 10) ? "0" + (parseInt(data.getMonth()) + 1) : data.getMonth() + 1) + "/" + data.getFullYear() + ""
     return dataString
-}
-
-
-
-/**
- * Recebe um número e retorna o mesmo em string com máscara de real
- * @param {number} numero Valor para ser retornado 
- */
-function numberToReal(numero) {
-    if (numero < 0) {
-        var numero = numero.toFixed(2).split('.');
-        numero[0] = numero[0].replace('-', '')
-        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
-        return '-' + numero.join(',');
-    } else {
-        var numero = numero.toFixed(2).split('.');
-        numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
-        return numero.join(',');
-    }
-}
-
-/**
- * Recebe uma máscara de real e converte em número
- * @param {string} numero máscara para ser revertida em number
- */
-function realToNumber(numero) {
-    return parseFloat(numero.replace(/\./g, '').replace(',', '.'))
 }

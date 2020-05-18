@@ -1,6 +1,7 @@
 /**
  * Prototype que adiciona dias
  * param {int} days dias que serão adicionados
+ * @author Erick Buriti
  */
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
