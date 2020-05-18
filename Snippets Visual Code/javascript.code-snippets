@@ -1,16 +1,23 @@
-// MAICOL DE OLIVEIRA CAMPOS
-{
+	/********************************** Comandos ********************************/
+	// fg@ dataset
+	// fg? services
+	// fg# form
+	// fg* workflow
+	// fg- scripts/components do style-fluig
+	// fg$ jquery
+	// fg& Javascript Vanilla
+	{
 		"Console Log": {
 			"prefix": "clog",
 			"body": "console.log('$1', $2)",
 			"description": "Log output to console"
 		},
 		/**********************************DATA SET********************************/
-		"Criar Conecção JDBC":{
+		"Criar Conecção JDBC": {
 			"prefix": "fg@createDatasetConectionJDBC(CREATE DATASET)",
 			"body": [
 				"function createDataset(fields, constraints, sortFields) {",
-			    "\tlog.info('#### DS SQL ####');",
+				"\tlog.info('#### DS SQL ####');",
 				"\tvar newDataset = DatasetBuilder.newDataset();",
 				"\tvar ic         = new javax.naming.InitialContext();",
 				"\tvar created    = false;",
@@ -32,7 +39,7 @@
 				"\t\t\t\t} else if (constraints[i].fieldName == 'sqlLimit') {",
 				"\t\t\t\t} else {",
 				"\t\t\t\t\tvar campo = constraints[i].fieldName;",
-				"\t\t\t\t\tvar valor = constraints[i].initialValue; ", 			
+				"\t\t\t\t\tvar valor = constraints[i].initialValue; ",
 				"\t\t\t\t\tfiltro += 'AND'  + campo + \" 'LIKE % + valor + %'\"; ",
 				"\t\t\t\t}",
 				"\t\t\t}",
@@ -61,18 +68,18 @@
 				"\t\t\tif(!created) {",
 				"\t\t\t\tfor(var i = 1; i <= columnCount; i++) {",
 				"\t\t\t\t\tnewDataset.addColumn(rs.getMetaData().getColumnName(i));",
-				"\t\t\t}",	
+				"\t\t\t}",
 				"\t\t\t\tcreated = true;",
 				"\t\t\t}",
 				"\t\t\tvar Arr = new Array();",
 				"\t\t\t\tfor(var i = 1; i <= columnCount; i++) {",
-				"\t\t\t\t\tvar obj = rs.getObject(rs.getMetaData().getColumnName(i));",	
-			    "\t\t\t\tif(null!=obj) {",
+				"\t\t\t\t\tvar obj = rs.getObject(rs.getMetaData().getColumnName(i));",
+				"\t\t\t\tif(null!=obj) {",
 				"\t\t\t\t\tArr[i-1] = rs.getObject(rs.getMetaData().getColumnName(i)).toString();",
 				"\t\t\t\t} else {",
 				"\t\t\tArr[i-1] = 'null';",
 				"\t\t\t\t}",
-				"\t\t\t}",			
+				"\t\t\t}",
 				"\t\t\t\tnewDataset.addRow(Arr);",
 				"\t\t\t}",
 				"\t} catch(e) {",
@@ -81,61 +88,60 @@
 				"\t\tnewDataset.addRow(new Array(e.message));",
 				"\t} finally {",
 				"\tif(stmt != null) stmt.close();",
-				"\t\tif(conn != null) conn.close();  ",              
+				"\t\tif(conn != null) conn.close();  ",
 				"\t}",
 				"\treturn newDataset;",
 				"}"
 			],
 			"description": "Criação de dataset para coneção com serviços jdbc - Fluig"
 		},
-
 		"Criar novo Dataset": {
 			"prefix": "fg@createds",
 			"body": [
-                "try{",
+				"try{",
 				"\tvar dataset = DatasetBuilder.newDataset();",
 				"\tdataset.addColumn('$NOME_DA_COLUNA');",
 				"\tdataset.addRow([$VALOR_LINHA]);",
 				"",
 				"\treturn dataset;",
-                "}catch(erro){",
+				"}catch(erro){",
 				"\tvar dataset = DatasetBuilder.newDataset();",
 				"\tdataset.addColumn('Erro');",
 				"\tdataset.addRow([erro]);",
 				"\treturn dataset;",
-                "}",
+				"}",
 			],
 			"description": "Cria uma estrutura de um novo dataset"
 		},
-		"Criar Constraint":{
+		"Criar Constraint": {
 			"prefix": "fg@createconstraint",
 			"body": [
 				"var ${constraint} = DatasetFactory.createConstraint('${indiceConstraint}', '${valorInicial}', '${valorfinal}', ConstraintType.MUST);"
 			],
 			"description": "Cria constraint"
 		},
-		"Adicionar Coluna ao Dataset":{
+		"Adicionar Coluna ao Dataset": {
 			"prefix": "fg@Col",
 			"body": [
 				"${dataset}.addColumn('${nomeColuna}')"
 			],
 			"description": "Adicionar colunas ao dataset"
 		},
-		"Pegar Valor do dataset":{
+		"Pegar Valor do dataset": {
 			"prefix": "fg@gval",
 			"body": [
 				"${dataset}.getValue(${i}, '${nomeColuna}');"
 			],
 			"description": "Pegar valor de uma posição x,y do dataset"
 		},
-		"Adicionar Linha ao Dataset":{
+		"Adicionar Linha ao Dataset": {
 			"prefix": "fg@row",
 			"body": [
-			"\tdataset.addRow(",
-			"\t\tnew Array(",
-			"\t\t\t${indice}",
-			"\t\t)",
-			"\t)"
+				"\tdataset.addRow(",
+				"\t\tnew Array(",
+				"\t\t\t${indice}",
+				"\t\t)",
+				"\t)"
 			],
 			"description": "Adicionar Campos do dataset"
 		},
@@ -144,18 +150,18 @@
 			"body": "var $dataset = DatasetFactory.getDataset('$DATASET', $null, $null, $null);",
 			"description": "Cria a estrutura de consulta de um dataset"
 		},
-	/**********************************FLUIG API********************************/
+		/**********************************FLUIG API********************************/
 		"Retorna login do usuário logado": {
 			"prefix": "fg?getLogin",
 			"body": [
-			  "var ${login} = fluigAPI.getUserService().getCurrent().getCode();"
+				"var ${login} = fluigAPI.getUserService().getCurrent().getCode();"
 			],
 			"description": "Retorna login do usuário logado"
 		},
 		"Retorna nomedo usuário logado": {
 			"prefix": "fg?getNome",
 			"body": [
-			  "var ${nome} = fluigAPI.getUserService().getCurrent().getFullName();"
+				"var ${nome} = fluigAPI.getUserService().getCurrent().getFullName();"
 			],
 			"description": "Retorna nomedo usuário logado"
 		},
@@ -163,28 +169,28 @@
 		"DisplayFields Set Value": {
 			"prefix": "fg#setValue",
 			"body": [
-			  "form.setValue('${indice1}', '${indice2}');"
+				"form.setValue('${indice1}', '${indice2}');"
 			],
 			"description": "DisplayFields Set Value"
 		},
 		"DisplayFields Get Value": {
 			"prefix": "fg#getValue",
 			"body": [
-			  "var ${campo} = form.getValue('${indice}');"
+				"var ${campo} = form.getValue('${indice}');"
 			],
 			"description": "DisplayFields Get Value"
 		},
 		"DisplayFields SetVisibleById": {
 			"prefix": "fg#setVisibleById",
 			"body": [
-			  "form.setVisibleById('${indice}', ${true});"
+				"form.setVisibleById('${indice}', ${true});"
 			],
 			"description": "DisplayFields SetVisibleById"
 		},
 		"Retorna número de filhos da tabela Pai Filho": {
 			"prefix": "fg#getIndexes",
 			"body": [
-			  "var $index = form.getChildrenIndexes(\"$1\");"
+				"var $index = form.getChildrenIndexes(\"$1\");"
 			],
 			"description": "Retorna número de filhos da tabela Pai Filho"
 		},
@@ -206,15 +212,14 @@
 			],
 			"description": "Adiciona uma variavel que guarda a atividade atual do processo"
 		},
-		"Numero da Solicitação Aberta":{
+		"Numero da Solicitação Aberta": {
 			"prefix": "fg#process",
 			"body": [
 				"var numProcesso = getValue('WKNumProces')"
 			],
 			"description": "Adiciona uma variavel que guarda o numero da solicitação aberta"
-
 		},
-		"Injeção de Script no Formulário":{
+		"Injeção de Script no Formulário": {
 			"prefix": "fg#append",
 			"body": [
 				"customHTML.append('<script>${code}</script>');"
@@ -225,14 +230,14 @@
 		"Retorna número da atividade": {
 			"prefix": "fg*getAtividade",
 			"body": [
-			  "var atividade = getValue(\"WKNumState\");"
+				"var atividade = getValue(\"WKNumState\");"
 			],
 			"description": "Retorna número da atividade"
 		},
 		"Retorna número do processo": {
 			"prefix": "fg*getProcesso",
 			"body": [
-			  "var processo = getValue('WKNumProces');"
+				"var processo = getValue('WKNumProces');"
 			],
 			"description": "Retorna número do processo"
 		},
@@ -283,7 +288,7 @@
 			],
 			"description": "Fluig Switcher event change"
 		},
-		"Fluig Calendario":{
+		"Fluig Calendario": {
 			"prefix": "fg-initcalendar",
 			"body": [
 				"FLUIGC.calendar(${seletor}, {",
@@ -304,10 +309,8 @@
 			],
 			"description": "Inicia Toast"
 		},
-
-
 		/**********************************JQUERY********************************/
-		"Document ready JQUERY":{
+		"Document ready JQUERY": {
 			"prefix": "fg$ready",
 			"body": [
 				"$('document').ready(function(){",
@@ -377,7 +380,7 @@
 			],
 			"description": "Evento mousedown JQUERY"
 		},
-		"Evento mousemove JQUERY":{
+		"Evento mousemove JQUERY": {
 			"prefix": "fg$mousemove",
 			"body": [
 				"$(${seletor}).mousemove(function(){",
@@ -386,7 +389,7 @@
 			],
 			"description": "Evento mousemove JQUERY"
 		},
-		"Evento mouseup JQUERY":{
+		"Evento mouseup JQUERY": {
 			"prefix": "fg$mouseup",
 			"body": [
 				"$(${seletor}).mouseup(function(){",
@@ -395,7 +398,7 @@
 			],
 			"description": "Evento mouseup JQUERY"
 		},
-		"Evento mouseout JQUERY":{
+		"Evento mouseout JQUERY": {
 			"prefix": "fg$mouseout",
 			"body": [
 				"$(${seletor}).mouseout(function(){",
@@ -404,7 +407,7 @@
 			],
 			"description": "Evento mouseout JQUERY"
 		},
-		"Evento mouseover JQUERY":{
+		"Evento mouseover JQUERY": {
 			"prefix": "fg$mouseover",
 			"body": [
 				"$(${seletor}).mouseover(function(){",
@@ -413,7 +416,7 @@
 			],
 			"description": "Evento mouseout JQUERY"
 		},
-		"Evento mouseleave JQUERY":{
+		"Evento mouseleave JQUERY": {
 			"prefix": "fg$mouseleave",
 			"body": [
 				"$(${seletor}).mouseleave(function(){",
@@ -422,7 +425,7 @@
 			],
 			"description": "Evento mouseleave JQUERY"
 		},
-		"Evento focus JQUERY":{
+		"Evento focus JQUERY": {
 			"prefix": "fg$focus",
 			"body": [
 				"$(${seletor}).focus(function(){",
@@ -431,7 +434,7 @@
 			],
 			"description": "Evento focus JQUERY"
 		},
-		"Evento hover JQUERY":{
+		"Evento hover JQUERY": {
 			"prefix": "fg$hover",
 			"body": [
 				"$(${seletor).hover(function(){",
@@ -440,7 +443,7 @@
 			],
 			"description": "Evento hover JQUERY"
 		},
-		"Each JQUERY":{
+		"Each JQUERY": {
 			"prefix": "fg$each",
 			"body": [
 				"$.each(${selector}, function(key,value){",
@@ -448,6 +451,58 @@
 				"})"
 			],
 			"description": "Função each JQUERY"
-		}
+		},
+		"$.Ajax Request": {
+			"prefix": "fg$ajax",
+			"body": [
+				" $.ajax({",
+				"\ttype: 'get',",
+				"\tcontentType: 'application/json; charset=utf-8',",
+				"\turl: ${url},",
+				"\tdataType: 'json',",
+				"success: function(data){",
+				"\tconsole.log(data);",
+				"},",
+				"error: function (error) {",
+				"\tconsole.error('Error: ',error);",
+				"}",
+				"});",
+			],
+			"description": "Requisição feita com ajax"
+		},
+		/********************************** Javascript Vanilla ********************************/
+		"Fetch request": {
+			"prefix": "fg&fetch",
+			"body": [
+				"fetch(${url}, {",
+				"\tmethod: 'GET',",
+				"\tmode: 'basic', // pode ser cors ou basic(default)",
+				"\theaders: new Headers({",
+				"\t'Content-Type': 'application/json'",
+				"})",
+				" })",
+				".then(res => res.json())",
+				".then(json => console.log(json))",
+				".catch(function(err){ ",
+				"\tconsole.error('Failed retrieving information', err);",
+				"});",
+			],
+			"description": "Fetch request"
+		},
+		"Document ready Javascript Vanilla": {
+			"prefix": "fg&ready",
+			"body": [
+				"document.addEventListener('DOMContentLoaded', function() {",
+				"\t\t${code}",
+				"})"
+			],
+			"description": "Document ready vanilla"
+		},
+		"Seletor Javascript Vanilla": {
+			"prefix": "fg&selector",
+			"body": [
+				"document.querySelector(`${elemento}`)"
+			],
+			"description": "Document selector"
+		},
 	}
-	
